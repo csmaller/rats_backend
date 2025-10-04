@@ -1,6 +1,6 @@
 # Prisma Postgres Example: Queries, Connection Pooling & Caching
 
-This project contains a sample application demonstrating various capabilities and workflows of [Prisma Postgres](https://prisma.io/data-platform/postgres):
+This project contains basic API for RATSBAND.COM. and utilizes Prisma [Prisma Postgres](https://prisma.io/data-platform/postgres):
 
 - Schema migrations and queries (via [Prisma ORM](https://www.prisma.io/orm))
 - Connection pooling and caching (via [Prisma Accelerate](https://prisma.io/data-platform/accelerate))
@@ -207,3 +207,38 @@ This uses `concurrently` and `wait-on` to start the server (no preflight) and th
 - [Subscribe to our YouTube channel](https://pris.ly/youtube?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) for live demos and video tutorials.
 - [Follow us on X](https://pris.ly/x?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section) for the latest updates.
 - Report issues or ask [questions on GitHub](https://pris.ly/github?utm_source=github&utm_medium=prisma_examples&utm_content=next_steps_section).
+
+CI/CD: Automatic Netlify deploy from GitHub
+
+This repo includes a GitHub Actions workflow that will build and deploy the site to Netlify whenever you push to `main`.
+
+Required GitHub repository secrets (set these in the repository Settings -> Secrets):
+
+- `NETLIFY_AUTH_TOKEN` — a Netlify personal access token (create one at https://app.netlify.com/user/applications#personal-access-tokens)
+- `NETLIFY_SITE_ID` — the Netlify site id for your target site (available on your site settings > Site information)
+- `DATABASE_URL` — the database connection string for Prisma (Postgres). This will be set on the Netlify site by the workflow.
+
+How it works:
+
+1. Push to `main`.
+2. GitHub Actions installs deps and runs `npm run build` (compiles TypeScript to `dist/`).
+3. The workflow sets `DATABASE_URL` on the Netlify site using `netlify env:set`.
+4. The workflow runs `npx netlify deploy --prod` and publishes `public/` and functions in `dist/netlify/functions`.
+
+Make sure the `DATABASE_URL` you provide is accessible from Netlify (e.g., a managed Postgres instance or a Prisma Data Platform connection string).
+
+Manual migration workflow
+
+If you prefer to run migrations manually (with explicit approval), there's a dedicated GitHub Actions workflow: **Run Prisma Migrations (manual)**.
+
+How to trigger it:
+
+- From the GitHub UI: Go to the repository → Actions → "Run Prisma Migrations (manual)" → Run workflow. Optionally set the `ref` input (branch or tag).
+
+- From the command line (using the GitHub CLI):
+
+```bash
+gh workflow run run-migrations.yml --repo OWNER/REPO --ref main
+```
+
+The workflow requires the `DATABASE_URL` secret to be set in the repository. This workflow performs `npx prisma migrate deploy` against the database you configured in `DATABASE_URL`.

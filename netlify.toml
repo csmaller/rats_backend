@@ -1,0 +1,7 @@
+[build]
+  functions = "./dist/netlify/functions"
+  command = "npm run build"
+  publish = "public"
+
+[dev]
+  functions = "src/netlify/functions"

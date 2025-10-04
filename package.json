@@ -13,6 +13,7 @@
     ,"dev:test": "wait-on http://localhost:4000 && npm run api-test",
     "dev": "concurrently \"npm: start:dev\" \"npm:dev:test\""
   },
+  "build": "npx tsc",
   
   "engines": {
     "node": ">=18"
@@ -34,5 +35,6 @@
     ,"@types/cors": "2.8.17"
     ,"concurrently": "8.2.0"
     ,"wait-on": "7.0.1"
+    ,"@netlify/functions": "1.4.0"
   }
 }

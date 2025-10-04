@@ -1,0 +1,38 @@
+# NOTE: To require approval before this workflow runs, create a GitHub Environment
+# (Repository -> Settings -> Environments) such as `production` and add Required
+# reviewers. Then add `environment: production` to the job below (or use the UI)
+# to enforce that reviewers must approve workflow runs that target that environment.
+# See: https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment
+
+name: Run Prisma Migrations (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git ref to run migrations on'
+        required: false
+        default: 'main'
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Prisma migrations (manual)
+        if: ${{ secrets.DATABASE_URL }}
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          echo "Running migrations on ref: ${{ github.event.inputs.ref || github.ref }}"
+          npx prisma migrate deploy
