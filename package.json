@@ -11,9 +11,10 @@
     "start:prod": "node ./scripts/check-node.js && npx tsc && node dist/src/server.js",
     "api-test": "ts-node src/api.test.ts"
     ,"dev:test": "wait-on http://localhost:4000 && npm run api-test",
-    "dev": "concurrently \"npm: start:dev\" \"npm:dev:test\""
+    "dev": "concurrently \"npm: start:dev\" \"npm:dev:test\"",
+    "build": "npx prisma generate && npx tsc"
   },
-  "build": "npx tsc",
+  
   
   "engines": {
     "node": ">=18"
