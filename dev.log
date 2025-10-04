@@ -1,0 +1,6 @@
+
+> start:dev
+> ts-node src/server.ts
+
+prisma:warn In production, we recommend using `prisma generate --no-engine` (See: `prisma generate --help`)
+API server listening on http://localhost:4000
