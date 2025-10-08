@@ -30,7 +30,6 @@ jobs:
         run: npm ci
 
       - name: Run Prisma migrations (manual)
-
-       run: |
+        run: |
           echo "Running migrations on ref: ${{ github.event.inputs.ref || github.ref }}"
           npx prisma migrate deploy
