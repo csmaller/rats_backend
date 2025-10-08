@@ -1,17 +1,36 @@
 import { PrismaClient } from '@prisma/client';
 import { withOptimize } from '@prisma/extension-optimize';
 
-const globalAny: any = globalThis as any;
+const globalAny:any = globalThis;
 
-// Create a Prisma client extended with the Optimize extension. The API key
-// is provided via the OPTIMIZE_API_KEY environment variable.
-const extendedPrisma = new PrismaClient().$extends(
-	withOptimize({ apiKey: process.env.OPTIMIZE_API_KEY })
-);
+// Create a function to initialize Prisma
+function createPrismaClient() {
+  try {
+    const apiKey = process.env.OPTIMIZE_API_KEY;
+    if (!apiKey) {
+      console.warn('OPTIMIZE_API_KEY is not set.');
+    }
+    return new PrismaClient().$extends(withOptimize({ apiKey }));
+  } catch (error) {
+    console.error('Failed to initialize PrismaClient:', error);
+    throw new Error('PrismaClient initialization failed. Check environment variables and configuration.');
+  }
+}
 
-// Preserve the global singleton so Netlify function invocations reuse the
-// same Prisma client in development (and don't create many connections).
-const prisma = globalAny.__prisma ?? extendedPrisma;
-if (process.env.NODE_ENV !== 'production') globalAny.__prisma = prisma;
+const prisma = globalAny.__prisma ?? createPrismaClient();
+
+if (process.env.NODE_ENV !== 'production') {
+  globalAny.__prisma = prisma;
+}
+
+// Test connection to debug
+(async () => {
+  try {
+    await prisma.$connect();
+    console.log('Prisma connected successfully');
+  } catch (error) {
+    console.error('Prisma connection failed:', error);
+  } 
+})();
 
 export default prisma;
