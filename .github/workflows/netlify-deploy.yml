@@ -37,7 +37,7 @@ jobs:
           echo "should_migrate=$SHOULD_MIGRATE" >> $GITHUB_OUTPUT
 
       - name: Run Prisma migrations (production)
-        if: ${{ secrets.DATABASE_URL && steps.check_migrations.outputs.should_migrate == 'true' }}
+        if: ${{ steps.check_migrations.outputs.should_migrate == 'true' && secrets.DATABASE_URL }}
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
