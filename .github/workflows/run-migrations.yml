@@ -30,7 +30,7 @@ jobs:
         run: npm ci
 
       - name: Run Prisma migrations (manual)
-        if: ${{ secrets.DATABASE_URL }}
+        if: ${{ secrets.DATABASE_URL }} }}
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
