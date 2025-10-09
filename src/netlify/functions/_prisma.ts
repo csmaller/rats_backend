@@ -7,6 +7,7 @@ const globalAny:any = globalThis;
 function createPrismaClient() {
   try {
     const apiKey = process.env.OPTIMIZE_API_KEY;
+    console.log(apiKey)
     if (!apiKey) {
       console.warn('OPTIMIZE_API_KEY is not set.');
     }
@@ -18,7 +19,7 @@ function createPrismaClient() {
 }
 
 const prisma = globalAny.__prisma ?? createPrismaClient();
-
+console.log('prisma client initialized');
 if (process.env.NODE_ENV !== 'production') {
   globalAny.__prisma = prisma;
 }

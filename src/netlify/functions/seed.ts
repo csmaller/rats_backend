@@ -5,6 +5,7 @@ import path from 'path';
 
 export const handler: Handler = async () => {
   try {
+    console.log('Seeding songs...');
     const songsPath = path.resolve('./src/songs.json');
     const raw = fs.readFileSync(songsPath, 'utf8');
     const parsed = JSON.parse(raw);
