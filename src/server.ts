@@ -13,8 +13,8 @@ if (typeof (globalThis as any).fetch !== 'function') {
 const app = express();
 // Define your allowed origins
 const allowedOrigins = [
-  'https://ratsmusic.netlify.app/', // Replace with your actual frontend domain
-  'http://localhost:5173/' // For local development
+  'https://ratsmusic.netlify.app', // Replace with your actual frontend domain
+  'http://localhost:5173' // For local development
 ];
 
 const corsOptions = {
@@ -39,6 +39,7 @@ const prisma = new PrismaClient();
 app.get('/health', (_req: Request, res: Response) => res.json({ ok: true }));
 
 app.get('/songs', async (req: Request, res: Response) => {
+  
   const q = req.query.q ? String(req.query.q) : undefined;
   try {
     const where = q
