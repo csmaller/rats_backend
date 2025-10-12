@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import cors from 'cors';
+import cors, { CorsOptions} from 'cors';
 import { PrismaClient } from '@prisma/client';
 import { fetch } from 'undici';
 import fs from 'fs';
@@ -18,7 +18,7 @@ const allowedOrigins = [
 ];
 
 const corsOptions = {
-  origin: function (origin, callback) {
+  origin: function (origin:string, callback: (err: Error | null, allow?: boolean) => void) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true); 
 
@@ -30,7 +30,7 @@ const corsOptions = {
   }
 };
 
-app.use(cors(corsOptions)); // Apply CORS middleware with strict options
+app.use(cors(corsOptions as any)); // Apply CORS middleware with strict options
 app.use(express.json()); // Example: body parser
 
 
