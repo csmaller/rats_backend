@@ -11,7 +11,9 @@ if (typeof (globalThis as any).fetch !== 'function') {
 }
 
 const app = express();
-app.use(cors());
+app.use(cors({
+      origin: 'https://ratsmusic.netlify.app' // Allow requests from your frontend's origin
+    }));
 app.use(express.json());
 
 const prisma = new PrismaClient();
