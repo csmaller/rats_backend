@@ -1,12 +1,11 @@
 import { PrismaClient } from '@prisma/client';
-import { withOptimize } from '@prisma/extension-optimize';
 
 const globalAny:any = globalThis;
 
 // Create a function to initialize Prisma
 function createPrismaClient() {
   try {
-    
+    console.log('return prisma clients')
     return new PrismaClient();
   } catch (error) {
     console.error('Failed to initialize PrismaClient:', error);
@@ -15,7 +14,6 @@ function createPrismaClient() {
 }
 
 const prisma = globalAny.__prisma ?? createPrismaClient();
-
 if (process.env.NODE_ENV !== 'production') {
   globalAny.__prisma = prisma;
 }
@@ -26,7 +24,7 @@ if (process.env.NODE_ENV !== 'production') {
     await prisma.$connect();
     console.log('PRISMA IS CONNECTED');
   } catch (error) {
-    console.error('Prisma connection failed:', error);
+    console.error('Prisma connection failed:');
   } 
 })();
 
