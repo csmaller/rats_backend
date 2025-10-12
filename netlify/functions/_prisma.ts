@@ -6,12 +6,8 @@ const globalAny:any = globalThis;
 // Create a function to initialize Prisma
 function createPrismaClient() {
   try {
-    const apiKey = process.env.OPTIMIZE_API_KEY;
-    console.log(apiKey)
-    if (!apiKey) {
-      console.warn('OPTIMIZE_API_KEY is not set.');
-    }
-    return new PrismaClient().$extends(withOptimize({ apiKey }));
+    
+    return new PrismaClient();
   } catch (error) {
     console.error('Failed to initialize PrismaClient:', error);
     throw new Error('PrismaClient initialization failed. Check environment variables and configuration.');
@@ -19,7 +15,7 @@ function createPrismaClient() {
 }
 
 const prisma = globalAny.__prisma ?? createPrismaClient();
-console.log('prisma client initialized');
+
 if (process.env.NODE_ENV !== 'production') {
   globalAny.__prisma = prisma;
 }
@@ -28,7 +24,7 @@ if (process.env.NODE_ENV !== 'production') {
 (async () => {
   try {
     await prisma.$connect();
-    console.log('Prisma connected successfully');
+    console.log('PRISMA IS CONNECTED');
   } catch (error) {
     console.error('Prisma connection failed:', error);
   } 

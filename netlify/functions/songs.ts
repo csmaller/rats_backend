@@ -13,6 +13,7 @@ export const handler: Handler = async (event) => {
         }
       : undefined;
     const songs = await (prisma as any).songs.findMany({ where });
+    console.log('Fetched songs:', songs.length);
     return { statusCode: 200, body: JSON.stringify(songs) };
   } catch (err) {
     console.error(err);
