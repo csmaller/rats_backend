@@ -11,10 +11,28 @@ if (typeof (globalThis as any).fetch !== 'function') {
 }
 
 const app = express();
-app.use(cors({
-      origin: 'https://ratsmusic.netlify.app' // Allow requests from your frontend's origin
-    }));
-app.use(express.json());
+// Define your allowed origins
+const allowedOrigins = [
+  'https://ratsmusic.netlify.app/', // Replace with your actual frontend domain
+  'http://localhost:5173/' // For local development
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true); 
+
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+};
+
+app.use(cors(corsOptions)); // Apply CORS middleware with strict options
+app.use(express.json()); // Example: body parser
+
 
 const prisma = new PrismaClient();
 
