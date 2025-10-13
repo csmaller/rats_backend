@@ -18,7 +18,7 @@ export const handler: Handler = async (event) => {
     const where = q
       ? {
           OR: [
-            { title: { contains: q, mode: 'insensitive' } },
+            { title: { contains: q, mode: 'insensitive', sort:'asc' } },
             { artist: { contains: q, mode: 'insensitive' } },
           ],
         }
