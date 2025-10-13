@@ -1,5 +1,6 @@
 import type { Handler } from '@netlify/functions';
 import prisma from './_prisma';
+import { title } from 'process';
 
 export const handler: Handler = async (event) => {
   const headers = {
@@ -18,8 +19,9 @@ export const handler: Handler = async (event) => {
     const where = q
       ? {
           OR: [
-            { title: { contains: q, mode: 'insensitive', sort:'asc' } },
+            { title: { contains: q, mode: 'insensitive' } },
             { artist: { contains: q, mode: 'insensitive' } },
+            {orderBy: {title: 'asc'}},
           ],
         }
       : undefined;
