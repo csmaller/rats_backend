@@ -16,11 +16,15 @@ export const handler: Handler = async (event) => {
   try {
     const q = event.queryStringParameters?.q;
     
-    const where =[
+    const where = q
+      ? {
+          OR: [
             { title: { contains: q, mode: 'insensitive' } },
             { artist: { contains: q, mode: 'insensitive' } },
-            {orderBy: {title: 'asc'}}]
-         
+            {orderBy: {title: 'asc'}},
+          ],
+        }
+      : undefined;
     const songs = await (prisma as any).songs.findMany({ where });
     return { statusCode: 200, headers, body: JSON.stringify(songs) };
   } catch (err) {
