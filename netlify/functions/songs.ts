@@ -21,11 +21,10 @@ export const handler: Handler = async (event) => {
           OR: [
             { title: { contains: q, mode: 'insensitive' } },
             { artist: { contains: q, mode: 'insensitive' } },
-            {orderBy: {title: 'asc'}},
           ],
         }
       : undefined;
-    const songs = await (prisma as any).songs.findMany({ where });
+    const songs = await (prisma as any).songs.findMany({ where, orderBy: { title: 'asc' } });
     return { statusCode: 200, headers, body: JSON.stringify(songs) };
   } catch (err) {
     console.log('Error fetching songs:');
