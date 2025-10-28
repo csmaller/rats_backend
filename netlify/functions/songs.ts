@@ -4,7 +4,7 @@ import { title } from 'process';
 
 export const handler: Handler = async (event) => {
   const headers = {
-    'Access-Control-Allow-Origin': 'https://ratsmusic.netlify.app',
+    'Access-Control-Allow-Origin': 'https://www.ratsband.com',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
   };

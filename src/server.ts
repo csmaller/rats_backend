@@ -13,7 +13,7 @@ if (typeof (globalThis as any).fetch !== 'function') {
 const app = express();
 // Define your allowed origins
 const allowedOrigins = [
-  'https://ratsmusic.netlify.app', // Replace with your actual frontend domain
+  'https://www.ratsband.com', // Replace with your actual frontend domain
   'http://localhost:5173' // For local development
 ];
 
